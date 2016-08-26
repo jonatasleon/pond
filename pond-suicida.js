@@ -5,8 +5,8 @@ var dir = 1;
 var shoot;
 
 while(true) {
-  ranges = scans(angle);
-
+  ranges = rangesByAngle(angle);
+  
   if (!found(ranges))
     angle += 5;
   else {
@@ -17,15 +17,6 @@ while(true) {
   }
 }
 
-function scans(angle) {
-  var ranges = [];
-  ranges.push(scan(angle));
-  ranges.push(scan(angle * -1));
-  ranges.push(scan(angle + 180));
-  ranges.push(scan((angle + 180) * -1));
-  return ranges;
-}
-
 function found(ranges) {
   var i = ranges.length;
   var found = false;
@@ -33,6 +24,23 @@ function found(ranges) {
     found = found || (ranges[i] !== Infinity);
   }
   return found;
+}
+
+function rangesByAngle(angle) {
+  var i = 0;
+  var ranges = [];
+  
+  var angles = {
+    0: angle,
+    1: angle * -1,
+    2: angle + 180,
+    3: (angle + 180) * -1
+  };
+  
+  while(i < 4)
+    ranges.push(scan(angles[i++]));
+  
+  return ranges;
 }
 
 function calcAngle (ranges, angle) {
