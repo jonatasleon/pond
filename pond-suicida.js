@@ -1,30 +1,32 @@
 var angle = 0;
-var range1;
-var range2;
-var range3;
-var range4;
+var ranges;
 var dir = 1;
 
 var shoot;
 
 while(true) {
-  range1 = scan(angle);
-  range2 = scan(angle * -1);
-  range3 = scan(angle + 180);
-  range4 = scan((angle + 180) * -1);
-  
-  if (!found(range1, range2, range3, range4))
+  ranges = scans(angle);
+
+  if (!found(ranges))
     angle += 5;
   else {
-    shoot = calcAngle([range1, range2, range3, range4], angle);
+    shoot = calcAngle(ranges, angle);
     angle = shoot.angle;
     cannon(angle, shoot.range);
     swim(angle, 100);
   }
 }
 
-function found() {
-  var ranges = arguments;
+function scans(angle) {
+  var ranges = [];
+  ranges.push(scan(angle));
+  ranges.push(scan(angle * -1));
+  ranges.push(scan(angle + 180));
+  ranges.push(scan((angle + 180) * -1));
+  return ranges;
+}
+
+function found(ranges) {
   var i = ranges.length;
   var found = false;
   while(--i) {
@@ -38,14 +40,14 @@ function calcAngle (ranges, angle) {
   var length = ranges.length;
   var bestRange = ranges[index];
   var aux = index;
-  
+
   var angles = {
     0: angle,
     1: angle * -1,
     2: angle + 180,
     3: (angle + 180) * -1
   };
-  
+
   while(index + 1 < length) {
     if(ranges[aux] > ranges[index + 1]) {
       bestRange = ranges[index + 1] ;
@@ -53,6 +55,6 @@ function calcAngle (ranges, angle) {
     }
     index++;
   }
-  
+
   return {angle: angles[aux], range: ranges[aux]};
 }
