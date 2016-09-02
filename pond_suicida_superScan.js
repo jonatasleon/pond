@@ -12,6 +12,7 @@ while(true) {
     
   swim(angle);
 }
+
 function superScan(angle) {
   var aux = 0;
   var range;
