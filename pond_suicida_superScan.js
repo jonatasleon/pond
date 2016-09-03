@@ -1,6 +1,5 @@
 var range;
 var angle = 0;
-var nAngle;
 
 while(true) {
   var res = superScan(angle);
